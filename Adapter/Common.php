@@ -4,6 +4,9 @@ namespace Gregwar\Image\Adapter;
 
 abstract class Common extends Adapter
 {
+    public $brightnessMax = 255;
+    public $contrastMax = 100;
+
     /**
      * @inheritdoc
      */
@@ -67,13 +70,6 @@ abstract class Common extends Adapter
     }
 
     /**
-     * Opens the image
-     */
-    abstract protected function openGif($file);
-    abstract protected function openJpeg($file);
-    abstract protected function openPng($file);
-
-    /**
      * Creates an image
      */
     abstract protected function createImage($width, $height);
@@ -91,30 +87,7 @@ abstract class Common extends Adapter
         $this->resource = $resource;
     }
 
-    protected function loadFile($file, $type)
-    {
-        if (!$this->supports($type)) {
-            throw new \RuntimeException('Type '.$type.' is not supported by GD');
-        }
-
-        if ($type == 'jpeg') {
-            $this->openJpeg($file);
-        }
-
-        if ($type == 'gif') {
-            $this->openGif($file);
-        }
-
-        if ($type == 'png') {
-            $this->openPng($file);
-        }
-
-        if (false === $this->resource) {
-            throw new \UnexpectedValueException('Unable to open file ('.$file.')');
-        } else {
-            $this->convertToTrueColor();
-        }
-    }
+    abstract protected function loadFile($file, $type);
 
     /**
      * @inheritdoc

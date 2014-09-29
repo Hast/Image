@@ -564,4 +564,29 @@ class GD extends Common
 
         return $this;
     }
+
+    protected function loadFile($file, $type)
+    {
+        if (!$this->supports($type)) {
+            throw new \RuntimeException('Type '.$type.' is not supported by GD');
+        }
+
+        if ($type == 'jpeg') {
+            $this->openJpeg($file);
+        }
+
+        if ($type == 'gif') {
+            $this->openGif($file);
+        }
+
+        if ($type == 'png') {
+            $this->openPng($file);
+        }
+
+        if (false === $this->resource) {
+            throw new \UnexpectedValueException('Unable to open file ('.$file.')');
+        } else {
+            $this->convertToTrueColor();
+        }
+    }
 }

@@ -264,6 +264,8 @@ class Image
         }
 
         $this->adapter->setSource($this->source);
+
+        return $this;
     }
 
     /**
